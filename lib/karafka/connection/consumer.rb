@@ -13,7 +13,7 @@ module Karafka
         controller = Karafka::Routing::Router.new(message.topic).build
         # We wrap it around with our internal message format, so we don't pass around
         # a raw Poseidon message
-        controller.params = Message.new(message.topic, message.value)
+        controller.params = Message.new(message.topic, message.value.try(:force_encoding,'utf-8'))
 
         Karafka.monitor.notice(self.class, controller.to_h)
 
